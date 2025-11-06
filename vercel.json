@@ -1,0 +1,23 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_GOOGLE_SHEET_ID": {
+      "description": "ID du Google Sheet"
+    },
+    "GOOGLE_API_KEY": {
+      "description": "Clé API Google (gardée secrète)"
+    },
+    "ADMIN_EMAIL": {
+      "description": "Email admin"
+    },
+    "ADMIN_PASSWORD_HASH": {
+      "description": "Hash bcrypt du mot de passe admin (gardé secret)"
+    },
+    "JWT_SECRET": {
+      "description": "Secret JWT pour les tokens (gardé secret)"
+    }
+  }
+}
