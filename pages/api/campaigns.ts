@@ -47,10 +47,10 @@ export default async function handler(
       campaigns
     })
   } catch (error: any) {
-    console.error('Erreur getCampaigns:', error.message)
+    console.error('Erreur API:', error.message)
     return res.status(500).json({
       success: false,
-      error: error.message || 'Erreur lors de la récupération des campagnes'
+      error: 'Erreur serveur'
     })
   }
 }

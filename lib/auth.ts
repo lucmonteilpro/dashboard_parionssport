@@ -31,12 +31,7 @@ class AuthManager {
     this.adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || ''
     
     // 🔍 DEBUG
-    console.log('🔍 ===== DEBUG AUTH =====')
-    console.log('Email:', this.adminEmail)
-    console.log('Hash length:', this.adminPasswordHash.length)
-    console.log('Hash (first 30 chars):', this.adminPasswordHash.substring(0, 30))
-    console.log('Hash (last 30 chars):', this.adminPasswordHash.substring(this.adminPasswordHash.length - 30))
-    console.log('🔍 =====================')
+    console.log('✅ AuthManager initialized')
   }
 
   /**
