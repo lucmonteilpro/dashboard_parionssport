@@ -29,6 +29,14 @@ class AuthManager {
     this.jwtSecret = process.env.JWT_SECRET || 'default-secret-change-in-env'
     this.adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com'
     this.adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || ''
+    
+    // 🔍 DEBUG
+    console.log('🔍 ===== DEBUG AUTH =====')
+    console.log('Email:', this.adminEmail)
+    console.log('Hash length:', this.adminPasswordHash.length)
+    console.log('Hash (first 30 chars):', this.adminPasswordHash.substring(0, 30))
+    console.log('Hash (last 30 chars):', this.adminPasswordHash.substring(this.adminPasswordHash.length - 30))
+    console.log('🔍 =====================')
   }
 
   /**
@@ -127,3 +135,5 @@ class AuthManager {
 // Exporter une instance singleton
 export const authManager = new AuthManager()
 export type { JWTPayload }
+
+
