@@ -1,13 +1,11 @@
 /**
  * EXPLICATION:
  * Ce fichier contient la logique pour:
- * 1. Lire les données brutes du Google Sheet via l'API
+ * 1. Lire les données brutes du Google Sheet via l'API REST
  * 2. Agréger les données par Campaign Name
  * 3. Calculer les KPIs
  * 4. Retourner des données structurées pour le dashboard
  */
-
-import { google } from 'googleapis'
 
 // Interface TypeScript qui définit la structure d'une campagne
 export interface Campaign {
@@ -31,17 +29,15 @@ export interface Campaign {
 
 /**
  * Parser les dates au format DD/MM/YYYY
- * Important: Les données du Google Sheet sont en DD/MM/YYYY
  */
 function parseDate(dateString: string): Date {
   if (!dateString) return new Date()
   
-  // Format: "23/09/2025"
   const parts = dateString.split('/')
   if (parts.length !== 3) return new Date()
   
   const day = parseInt(parts[0])
-  const month = parseInt(parts[1]) - 1 // Mois en JS commence à 0
+  const month = parseInt(parts[1]) - 1
   const year = parseInt(parts[2])
   
   const date = new Date(year, month, day)
@@ -51,31 +47,38 @@ function parseDate(dateString: string): Date {
 
 // Classe pour gérer Google Sheets API
 class GoogleSheetsClient {
-  private sheets: any
   private spreadsheetId: string
+  private apiKey: string
   private sheetName: string = 'ParionsSport Data'
 
   constructor() {
-    this.sheets = google.sheets({
-      version: 'v4',
-      auth: process.env.GOOGLE_API_KEY,
-    })
     this.spreadsheetId = process.env.GOOGLE_SHEET_ID || ''
+    this.apiKey = process.env.GOOGLE_API_KEY || ''
+    
+    // 🔍 DEBUG
+    console.log('🔍 GOOGLE_SHEET_ID:', this.spreadsheetId.substring(0, 20) + '...')
+    console.log('🔍 GOOGLE_API_KEY exists:', !!this.apiKey)
+    console.log('🔍 Sheet name:', this.sheetName)
   }
 
   /**
-   * Lire les données brutes du Google Sheet
+   * Lire les données brutes du Google Sheet via API REST
    */
   async fetchRawData(): Promise<any[][]> {
     try {
       console.log('📥 Lecture du Google Sheet...')
       
-      const response = await this.sheets.spreadsheets.values.get({
-        spreadsheetId: this.spreadsheetId,
-        range: `${this.sheetName}!A:J`,
-      })
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${this.spreadsheetId}/values/${this.sheetName}!A:J?key=${this.apiKey}`
+      
+      const response = await fetch(url)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
 
-      const rows = response.data.values || []
+      const data = await response.json()
+      const rows = data.values || []
+      
       console.log(`✅ ${rows.length} lignes récupérées`)
       return rows
     } catch (error) {
@@ -97,7 +100,7 @@ class GoogleSheetsClient {
         return []
       }
   
-      // Convertir les dates en objets Date (format YYYY-MM-DD de l'input)
+      // Convertir les dates en objets Date
       const filterStartDate = startDate ? new Date(startDate) : null
       const filterEndDate = endDate ? new Date(endDate) : null
       if (filterEndDate) filterEndDate.setHours(23, 59, 59, 999)
@@ -146,7 +149,7 @@ class GoogleSheetsClient {
         const yesterday = new Date(today)
         yesterday.setDate(yesterday.getDate() - 1)
   
-        console.log(`🔍 Campagne: ${campaignName}`)
+        console.log(`📍 Campagne: ${campaignName}`)
         console.log(`   Données totales: ${campaignData.length}`)
   
         const totalClicks = campaignData.reduce((sum: number, d: any) => sum + d.clicks, 0)
@@ -154,7 +157,7 @@ class GoogleSheetsClient {
         const totalImpressions = campaignData.reduce((sum: number, d: any) => sum + d.impressions, 0)
         const spendTotal = campaignData.reduce((sum: number, d: any) => sum + d.cost, 0)
   
-        // ===== SPEND TODAY: Lissé selon l'heure (0 à 600€) =====
+        // Spend today - lissé selon l'heure
         const currentHour = new Date().getHours()
         const currentMinute = new Date().getMinutes()
         const currentSecond = new Date().getSeconds()
@@ -164,7 +167,7 @@ class GoogleSheetsClient {
         const maxDailyBudget = 600
         const spendToday = Math.round(progressionInDay * maxDailyBudget * 100) / 100
   
-        // ===== SPEND YESTERDAY: Vraies données de la veille =====
+        // Spend yesterday
         const yesterdayData = campaignData.filter((d: any) => {
           const dataDate = new Date(d.date)
           dataDate.setHours(0, 0, 0, 0)
@@ -173,7 +176,7 @@ class GoogleSheetsClient {
   
         const spendYesterday = yesterdayData.reduce((sum: number, d: any) => sum + d.cost, 0)
   
-        console.log(`   Yesterday (${yesterday.toLocaleDateString('fr-FR')}): ${yesterdayData.length} rows, ${spendYesterday}€`)
+        console.log(`   Yesterday: ${yesterdayData.length} rows, ${spendYesterday}€`)
         console.log(`   Today: ${spendToday}€`)
   
         const totalBudget = 20000

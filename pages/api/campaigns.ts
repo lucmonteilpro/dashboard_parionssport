@@ -16,6 +16,8 @@ interface CampaignsResponse {
 function verifyAuth(req: NextApiRequest): boolean {
   const authHeader = req.headers.authorization
   const token = authHeader?.replace('Bearer ', '')
+  
+  // ✅ Utiliser authManager.verifyToken() (comme en login!)
   return authManager.verifyToken(token || '') !== null
 }
 

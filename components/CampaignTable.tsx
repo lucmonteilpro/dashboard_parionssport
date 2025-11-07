@@ -105,9 +105,6 @@ export default function CampaignTable({ campaigns, loading = false }: CampaignTa
                 <div className="text-xs text-gray-500">
                   Aujourd'hui: {formatCurrency(campaign.spendToday)}
                 </div>
-                <div className="text-xs text-gray-500">
-                  Hier: {formatCurrency(campaign.spendYesterday)}
-                </div>
               </td>
 
               {/* Barre de progression */}
