@@ -111,7 +111,7 @@ class GoogleSheetsClient {
       // Parser les données (skip header en ligne 0)
       for (let i = 1; i < rawData.length; i++) {
         const row = rawData[i]
-        if (!row || row.length < 10) continue
+        if (!row || row.length < 3) continue  // ✅ BON! (minimum: date, app, campaign)
   
         // Parser la date au format DD/MM/YYYY
         const rowDate = parseDate(row[0])
@@ -121,16 +121,12 @@ class GoogleSheetsClient {
   
         const data = {
           date: rowDate,
-          app: row[1],
-          storeId: row[2],
-          campaignId: row[3],
-          campaignName: row[3],
-          platform: row[4],
-          country: row[5],
-          impressions: parseInt(row[6]) || 0,
-          clicks: parseInt(row[7]) || 0,
-          installs: parseInt(row[8]) || 0,
-          cost: parseFloat(row[9]) || 0,
+          app: row[1],                 // B: "Sharper"
+          campaignName: row[2],        // C: "Parions Sport En Ligne"
+          impressions: parseInt(row[3]) || 0,  // D: Impressions
+          clicks: parseInt(row[4]) || 0,       // E: Clicks
+          installs: parseInt(row[5]) || 0,     // F: Installs
+          cost: parseFloat(row[6]) || 0,       // G: Cost
         }
   
         if (!campaignMap.has(data.campaignName)) {

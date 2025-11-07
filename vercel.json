@@ -19,5 +19,11 @@
     "JWT_SECRET": {
       "description": "Secret JWT pour les tokens (gardé secret)"
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/sync-adjust",
+      "schedule": "0 4 * * *"
+    }
+  ]
 }
