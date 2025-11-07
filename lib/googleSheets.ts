@@ -60,7 +60,7 @@ class GoogleSheetsClient {
       version: 'v4',
       auth: process.env.GOOGLE_API_KEY,
     })
-    this.spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID || ''
+    this.spreadsheetId = process.env.GOOGLE_SHEET_ID || ''
   }
 
   /**
