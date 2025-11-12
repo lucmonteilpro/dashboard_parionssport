@@ -4,7 +4,7 @@
  * - Nom campagne
  * - Budget et spend
  * - Barre de progression
- * - Clics, Installations, CPA, ROAS
+ * - Clics, Installations, CPI
  * - Statut
  */
 
@@ -74,10 +74,7 @@ export default function CampaignTable({ campaigns, loading = false }: CampaignTa
               Installs
             </th>
             <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
-              CPA
-            </th>
-            <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
-              ROAS
+              CPI
             </th>
             <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">
               Statut
@@ -94,7 +91,6 @@ export default function CampaignTable({ campaigns, loading = false }: CampaignTa
                 <div className="font-medium text-gray-900 max-w-xs truncate" title={campaign.name}>
                   {campaign.name}
                 </div>
-                <div className="text-xs text-gray-500">{campaign.country}</div>
               </td>
 
               {/* Budget et Spend */}
@@ -105,6 +101,7 @@ export default function CampaignTable({ campaigns, loading = false }: CampaignTa
                 <div className="text-xs text-gray-500">
                   Aujourd'hui: {formatCurrency(campaign.spendToday)}
                 </div>
+
               </td>
 
               {/* Barre de progression */}
@@ -127,14 +124,9 @@ export default function CampaignTable({ campaigns, loading = false }: CampaignTa
                 {formatNumber(campaign.totalInstalls)}
               </td>
 
-              {/* CPA */}
+              {/* CPI (Cost Per Install) */}
               <td className="px-6 py-4 text-right text-sm text-gray-900">
-                {campaign.cpa ? formatCurrency(campaign.cpa) : '–'}
-              </td>
-
-              {/* ROAS */}
-              <td className="px-6 py-4 text-right text-sm text-gray-900">
-                {campaign.roas ? campaign.roas.toFixed(2) : '–'}
+                {campaign.cpi ? formatCurrency(campaign.cpi) : '–'}
               </td>
 
               {/* Statut */}

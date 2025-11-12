@@ -23,7 +23,7 @@ export interface Campaign {
   country: string
   percentageSpent: number
   remainingBudget: number
-  cpa?: number
+  cpi?: number
   roas?: number
 }
 
@@ -179,7 +179,8 @@ class GoogleSheetsClient {
         const dailyBudget = totalBudget / 31
         const percentageSpent = (spendTotal / totalBudget) * 100
         const remainingBudget = totalBudget - spendTotal
-        const cpa = totalInstalls > 0 ? spendTotal / totalInstalls : undefined
+        // CPI = Cost Per Install = Coût total / Nombre d'installations
+        const cpi = totalInstalls > 0 ? spendTotal / totalInstalls : undefined
   
         const campaign: Campaign = {
           id: campaignName,
@@ -196,7 +197,7 @@ class GoogleSheetsClient {
           country: campaignData[0].country,
           percentageSpent: Math.round(percentageSpent * 100) / 100,
           remainingBudget: Math.round(remainingBudget * 100) / 100,
-          cpa: cpa ? Math.round(cpa * 100) / 100 : undefined,
+          cpi: cpi ? Math.round(cpi * 100) / 100 : undefined,
         }
   
         campaigns.push(campaign)
