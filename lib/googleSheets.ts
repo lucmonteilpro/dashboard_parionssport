@@ -20,11 +20,9 @@ export interface Campaign {
   totalInstalls: number
   totalImpressions: number
   status: 'live' | 'paused'
-  country: string
   percentageSpent: number
   remainingBudget: number
   cpi?: number
-  roas?: number
 }
 
 /**
@@ -68,7 +66,7 @@ class GoogleSheetsClient {
     try {
       console.log('📥 Lecture du Google Sheet...')
       
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${this.spreadsheetId}/values/${this.sheetName}!A:J?key=${this.apiKey}`
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${this.spreadsheetId}/values/${this.sheetName}!A:G?key=${this.apiKey}`
       
       const response = await fetch(url)
       
@@ -111,7 +109,7 @@ class GoogleSheetsClient {
       // Parser les données (skip header en ligne 0)
       for (let i = 1; i < rawData.length; i++) {
         const row = rawData[i]
-        if (!row || row.length < 3) continue  // ✅ BON! (minimum: date, app, campaign)
+        if (!row || row.length < 7) continue  // Minimum: Date, Channel, Campaign, Impressions, Clicks, Installs, Cost
   
         // Parser la date au format DD/MM/YYYY
         const rowDate = parseDate(row[0])
@@ -121,7 +119,7 @@ class GoogleSheetsClient {
   
         const data = {
           date: rowDate,
-          app: row[1],                 // B: "Sharper"
+          channel: row[1],             // B: "Sharper"
           campaignName: row[2],        // C: "Parions Sport En Ligne"
           impressions: parseInt(row[3]) || 0,  // D: Impressions
           clicks: parseInt(row[4]) || 0,       // E: Clicks
@@ -179,7 +177,8 @@ class GoogleSheetsClient {
         const dailyBudget = totalBudget / 31
         const percentageSpent = (spendTotal / totalBudget) * 100
         const remainingBudget = totalBudget - spendTotal
-        // CPI = Cost Per Install = Coût total / Nombre d'installations
+        
+        // CPI = Cost Per Install
         const cpi = totalInstalls > 0 ? spendTotal / totalInstalls : undefined
   
         const campaign: Campaign = {
@@ -194,7 +193,6 @@ class GoogleSheetsClient {
           totalInstalls,
           totalImpressions,
           status: 'live',
-          country: campaignData[0].country,
           percentageSpent: Math.round(percentageSpent * 100) / 100,
           remainingBudget: Math.round(remainingBudget * 100) / 100,
           cpi: cpi ? Math.round(cpi * 100) / 100 : undefined,
