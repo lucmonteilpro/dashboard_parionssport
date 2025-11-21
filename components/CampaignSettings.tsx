@@ -1,6 +1,6 @@
 /**
- * Composant des paramètres de campagne
- * Budget, CPA, CPI et stratégie (LECTURE SEULE)
+ * Campaign Settings Component
+ * Budget, CPA, CPI and strategy (READ ONLY)
  */
 
 import React from 'react'
@@ -17,7 +17,7 @@ export interface CampaignSettingsData {
 }
 
 export default function CampaignSettings({ onSettingsChange }: CampaignSettingsProps) {
-  // Valeurs fixes
+  // Fixed values
   const monthlyBudget = 20000
   const cpaObjective = 80
   const targetCpi = 10
@@ -25,14 +25,14 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
 
   return (
     <div className="mb-6 p-6 bg-white rounded-lg border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">⚙️ Settings Campagne</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-6">⚙️ Campaign Settings</h3>
 
-      {/* Grid 3 colonnes - LECTURE SEULE */}
+      {/* 3-column grid - READ ONLY */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        {/* Budget Mensuel */}
+        {/* Monthly Budget */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Budget Mensuel
+            Monthly Budget
           </label>
           <div className="relative">
             <span className="absolute left-3 top-2 text-gray-600">€</span>
@@ -43,13 +43,13 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
               className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600 cursor-not-allowed"
             />
           </div>
-          <p className="text-xs text-gray-500 mt-1">Budget total pour le mois</p>
+          <p className="text-xs text-gray-500 mt-1">Total budget for the month</p>
         </div>
 
-        {/* Objectif CPA */}
+        {/* CPA Objective */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Objectif CPA
+            CPA Objective
           </label>
           <div className="relative">
             <span className="absolute left-3 top-2 text-gray-600">€</span>
@@ -61,7 +61,7 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
               className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600 cursor-not-allowed"
             />
           </div>
-          <p className="text-xs text-gray-500 mt-1">Coût par acquisition cible</p>
+          <p className="text-xs text-gray-500 mt-1">Target cost per acquisition</p>
         </div>
 
         {/* Target CPI */}
@@ -79,15 +79,15 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
               className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600 cursor-not-allowed"
             />
           </div>
-          <p className="text-xs text-gray-500 mt-1">Coût par installation cible</p>
+          <p className="text-xs text-gray-500 mt-1">Target cost per install</p>
         </div>
       </div>
 
-      {/* Stratégie CPA vs CPI */}
+      {/* CPA vs CPI Strategy */}
       <div className="pt-4 border-t border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <label className="text-sm font-medium text-gray-700">
-            Stratégie: CPA vs CPI
+            Strategy: CPA vs CPI
           </label>
           <div className="flex gap-4 text-sm">
             <span className="font-medium text-blue-600">CPA: {strategy}%</span>
@@ -95,7 +95,7 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
           </div>
         </div>
 
-        {/* Slider - DÉSACTIVÉ */}
+        {/* Slider - DISABLED */}
         <div className="flex items-center gap-4 opacity-60 pointer-events-none">
           <span className="text-xs font-medium text-gray-600 w-10">CPA</span>
           <input
@@ -114,34 +114,34 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
 
         <p className="text-xs text-gray-500 mt-2">
           {strategy >= 50
-            ? `🔵 Priorité CPA: ${strategy}% - Optimiser pour les acquisitions`
-            : `🟢 Priorité CPI: ${100 - strategy}% - Optimiser pour les installations`}
+            ? `🔵 CPA Priority: ${strategy}% - Optimize for acquisitions`
+            : `🟢 CPI Priority: ${100 - strategy}% - Optimize for installs`}
         </p>
       </div>
 
-      {/* Visualisation rapide */}
+      {/* Quick Overview */}
       <div className="mt-6 pt-6 border-t border-gray-200">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-blue-50 p-3 rounded">
-            <p className="text-xs text-gray-600">Budget/jour</p>
+            <p className="text-xs text-gray-600">Daily Budget</p>
             <p className="text-lg font-bold text-blue-600">
               €{(monthlyBudget / 31).toFixed(2)}
             </p>
           </div>
           <div className="bg-green-50 p-3 rounded">
-            <p className="text-xs text-gray-600">Installs potentiels</p>
+            <p className="text-xs text-gray-600">Potential Installs</p>
             <p className="text-lg font-bold text-green-600">
               {Math.floor(monthlyBudget / targetCpi)}
             </p>
           </div>
           <div className="bg-purple-50 p-3 rounded">
-            <p className="text-xs text-gray-600">Acquisitions potentielles</p>
+            <p className="text-xs text-gray-600">Potential Acquisitions</p>
             <p className="text-lg font-bold text-purple-600">
               {Math.floor(monthlyBudget / cpaObjective)}
             </p>
           </div>
           <div className="bg-orange-50 p-3 rounded">
-            <p className="text-xs text-gray-600">Efficacité CPA/CPI</p>
+            <p className="text-xs text-gray-600">CPA/CPI Efficiency</p>
             <p className="text-lg font-bold text-orange-600">
               {((cpaObjective / targetCpi) * 100).toFixed(0)}%
             </p>
@@ -149,9 +149,9 @@ export default function CampaignSettings({ onSettingsChange }: CampaignSettingsP
         </div>
       </div>
 
-      {/* Note importante */}
+      {/* Important Note */}
       <p className="text-xs italic text-gray-500 mt-4 pt-4 border-t border-gray-200">
-        Les paramètres ne peuvent être modifiés sur cette UI
+        Parameters cannot be modified on this UI
       </p>
     </div>
   )

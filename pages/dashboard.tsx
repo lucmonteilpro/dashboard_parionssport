@@ -34,14 +34,14 @@ export default function Dashboard() {
           },
         })
 
-        if (!response.ok) throw new Error('Erreur de récupération')
+        if (!response.ok) throw new Error('Retrieval error')
 
         const data = await response.json()
         if (data.success) {
           setCampaigns(data.campaigns)
           setFilteredCampaigns(data.campaigns)
         } else {
-          setError(data.error || 'Erreur')
+          setError(data.error || 'Error')
         }
       } catch (err: any) {
         setError(err.message)
@@ -83,9 +83,9 @@ export default function Dashboard() {
         <div className="flex-1">
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-4 border-blue-800 shadow-lg">
-          <div className="px-6 py-4">
+            <div className="px-6 py-4">
               <div className="flex items-center justify-between gap-4">
-                {/* Logos à gauche */}
+                {/* Logos on the left */}
                 <div className="flex items-center gap-3 flex-shrink-0">
                   <div className="bg-white rounded-lg p-2">
                     <img 
@@ -102,11 +102,11 @@ export default function Dashboard() {
                   />
                 </div>
 
-                {/* Texte + Live au centre */}
+                {/* Text + Live in the center */}
                 <div className="flex items-center gap-4 flex-1 justify-center">
                   <div>
                     <h1 className="text-2xl font-bold text-white">Parions Sport</h1>
-                    <p className="text-blue-100 text-sm">Dashboard DSP - Campagnes</p>
+                    <p className="text-blue-100 text-sm">Dashboard DSP - Campaigns</p>
                   </div>
 
                   {/* Live indicator */}
@@ -116,7 +116,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Déconnexion à droite */}
+                {/* Logout on the right */}
                 <div className="flex-shrink-0">
                   <button
                     onClick={() => {
@@ -125,7 +125,7 @@ export default function Dashboard() {
                     }}
                     className="px-4 py-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold rounded-lg transition shadow-md"
                   >
-                    Déconnexion
+                    Logout
                   </button>
                 </div>
               </div>
@@ -141,18 +141,18 @@ export default function Dashboard() {
             <div className="mb-8">
               <div className="flex justify-between items-baseline">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900">Vos Campagnes</h2>
-                  <p className="text-gray-600 mt-1">Vue d'ensemble de toutes vos campagnes DSP et leurs performances</p>
+                  <h2 className="text-3xl font-bold text-gray-900">Your Campaigns</h2>
+                  <p className="text-gray-600 mt-1">Overview of all your DSP campaigns and their performance</p>
                 </div>
                 <div className="text-right text-sm text-gray-600">
-                  {filteredCampaigns.length} campagne{filteredCampaigns.length > 1 ? 's' : ''}
+                  {filteredCampaigns.length} campaign{filteredCampaigns.length > 1 ? 's' : ''}
                 </div>
               </div>
             </div>
 
             {error && (
               <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
-                Erreur: {error}
+                Error: {error}
               </div>
             )}
 
@@ -161,7 +161,7 @@ export default function Dashboard() {
                 <div className="inline-block">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                 </div>
-                <p className="text-gray-600 mt-4">Chargement des données...</p>
+                <p className="text-gray-600 mt-4">Loading data...</p>
               </div>
             ) : filteredCampaigns.length > 0 ? (
               <>
@@ -171,7 +171,7 @@ export default function Dashboard() {
                   <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-gray-600 text-sm font-medium">Total Campagnes</p>
+                        <p className="text-gray-600 text-sm font-medium">Total Campaigns</p>
                         <p className="text-4xl font-bold text-gray-900 mt-2">{totalCampaigns}</p>
                       </div>
                       <div className="bg-blue-100 p-3 rounded-lg">
@@ -183,9 +183,9 @@ export default function Dashboard() {
                   <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-gray-600 text-sm font-medium">Dépense Totale</p>
+                        <p className="text-gray-600 text-sm font-medium">Total Spend</p>
                         <p className="text-4xl font-bold text-gray-900 mt-2">
-                          {totalSpend.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })}
+                          {totalSpend.toLocaleString('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })}
                         </p>
                       </div>
                       <div className="bg-green-100 p-3 rounded-lg">
@@ -197,9 +197,9 @@ export default function Dashboard() {
                   <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-gray-600 text-sm font-medium">Total Clics</p>
+                        <p className="text-gray-600 text-sm font-medium">Total Clicks</p>
                         <p className="text-4xl font-bold text-gray-900 mt-2">
-                          {totalClicks.toLocaleString('fr-FR')}
+                          {totalClicks.toLocaleString('en-US')}
                         </p>
                       </div>
                       <div className="bg-purple-100 p-3 rounded-lg">
@@ -213,7 +213,7 @@ export default function Dashboard() {
                       <div>
                         <p className="text-gray-600 text-sm font-medium">Total Installs</p>
                         <p className="text-4xl font-bold text-gray-900 mt-2">
-                          {totalInstalls.toLocaleString('fr-FR')}
+                          {totalInstalls.toLocaleString('en-US')}
                         </p>
                       </div>
                       <div className="bg-orange-100 p-3 rounded-lg">
@@ -225,8 +225,8 @@ export default function Dashboard() {
               </>
             ) : (
               <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-                <p className="text-gray-600 text-lg">Aucune campagne trouvée pour cette période</p>
-                <p className="text-gray-500 text-sm mt-2">Essayez de modifier les dates</p>
+                <p className="text-gray-600 text-lg">No campaigns found for this period</p>
+                <p className="text-gray-500 text-sm mt-2">Try changing the dates</p>
               </div>
             )}
           </div>
