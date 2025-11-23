@@ -60,8 +60,8 @@ export default function AudiencesPage() {
     // Device
     deviceTypes: ['Mobile', 'Tablet'],
     osTypes: ['iOS', 'Android'],
-    osVersion: 'iOS 15+, Android 10+',
-    deviceModels: ['iPhone 16', 'iPhone 17', 'Samsung S24', 'Samsung S25', 'Xiaomi models'],
+    osVersion: '',
+    deviceModels: [],
     connections: ['WiFi', '4G', '5G'],
     
     // Geo
@@ -128,7 +128,7 @@ export default function AudiencesPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <h1 className="text-2xl font-bold text-white">Audiences</h1>
-                  <p className="text-blue-100 text-sm">Full setup of an audience (READ ONLY)</p>
+                  <p className="text-blue-100 text-sm">Setup complet d'une audience (lecture seule)</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
@@ -353,34 +353,17 @@ export default function AudiencesPage() {
                   </div>
                 </div>
 
-                {/* OS Version */}
-                <div className="mb-8 pb-8 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">OS Version</h3>
-                  <input 
-                    type="text" 
-                    disabled 
-                    value={audience.osVersion}
-                    onChange={(e) => handleInputChange('osVersion', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
-                </div>
-
                 {/* Device Models */}
                 <div className="mb-8 pb-8 border-b border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Device Models</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {['iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16', 'iPhone 17', 'Samsung S21', 'Samsung S22', 'Samsung S23', 'Samsung S24', 'Samsung S25', 'Xiaomi models'].map((model) => (
-                      <label key={model} className="flex items-center cursor-not-allowed p-3 rounded-lg">
-                        <input
-                          type="checkbox"
-                          checked={audience.deviceModels.includes(model)}
-                          onChange={() => handleCheckboxChange('deviceModels', model)}
-                          disabled
-                          className="w-4 h-4 text-blue-600 disabled:opacity-50 rounded"
-                        />
-                        <span className="ml-3 text-gray-700 font-medium">{model}</span>
-                      </label>
-                    ))}
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700 font-medium">All Devices</span>
+                    <button 
+                      disabled 
+                      className="px-4 py-2 bg-gray-400 text-white rounded-lg font-medium cursor-not-allowed opacity-50"
+                    >
+                      Select device to exclude
+                    </button>
                   </div>
                 </div>
 
@@ -518,16 +501,6 @@ export default function AudiencesPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Viewability</label>
-                    <input 
-                      type="text" 
-                      disabled 
-                      value={audience.viewability}
-                      onChange={(e) => handleInputChange('viewability', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Environment</label>
                     <div className="flex items-center gap-6 mt-2">
                       {['In-app', 'Mobile web'].map((env) => (
@@ -549,7 +522,7 @@ export default function AudiencesPage() {
 
               {/* SUMMARY */}
               <section className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="font-bold text-gray-900 mb-4">📋 Sum up of Audience setup:</h4>
+                <h4 className="font-bold text-gray-900 mb-4">📋 Résumé de l'Audience Setup:</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
                   <div>
                     <strong>Ages:</strong> {audience.ages.join(', ')}

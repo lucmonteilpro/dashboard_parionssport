@@ -112,7 +112,7 @@ export default function DealDeskPage() {
           {/* Content */}
           <div className="p-8">
             {/* Deals Section */}
-            <div className="mb-8">
+            <div className="mb-8 opacity-75 cursor-not-allowed pointer-events-none">
               {/* Title + Buttons */}
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Deals</h2>
